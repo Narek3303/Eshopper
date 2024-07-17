@@ -1,0 +1,56 @@
+{% extends "main/base.html" %}
+
+
+{% block content %}
+<div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+  <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+
+                    {% for item in cart %}
+                        {% with item.product as product %}
+
+
+                            <tr>
+                                <img src="{{ product.image.all.first.img.url }}" alt="" style="width: 50px;">
+                                <td class="align-middle">${{ item.price }}</td>
+                                <td class="align-middle">
+                                    <div class="input-group quantity mx-auto" style="width: 100px;">
+                                      <td>{{ item.product.name }}</td>
+                                      <td class="num">${{ item.price }}</td>
+                                      <td class="num">{{ item.quantity }}</td>
+                                      <td class="num">${{ item.get_cost }}</td>
+
+
+                                    </div>
+                                </td>
+                                <td class="align-middle">${{ item.total_price }}</td>
+                                <td class="align-middle">
+
+                                </td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <h6 class="font-weight-medium">${{ cart.get_total_price }}</h6>
+              <form action="{% url "payment:process" %}" method="post">
+              <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" type="submit">Puy Now</button>
+              {% csrf_token %}
+              </form>
+
+            </div>
+        </div>
+      </div>
+{% endblock content %}
